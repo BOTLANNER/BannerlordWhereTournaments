@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<base xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" type="string">
+    <tags>
+        <tag language="English" />
+    </tags>
+    <strings>
+        <string id="where_tournaments_str_tournament_here" text="There is currently a tournament in this town's arena." />
+        <string id="where_tournaments_str_tournament_find" text="Find nearby tournaments." />
+        <string id="where_tournaments_str_tournament_find_all" text="Find all tournaments." />
+        <string id="where_tournaments_str_tournaments_found" text="Found Tournaments." />
+        <string id="where_tournaments_str_tournaments_track_selected" text="Track Selected" />
+        <string id="where_tournaments_str_tournaments_town_already_tracked" text="{TOWN} is already being tracked" />
+        <string id="where_tournaments_str_tournaments_track_town" text="Track {TOWN} on the map" />
+        <string id="where_tournaments_str_tournament_days_left" text="{TOWN} - {DAYS} days left" />
+        <string id="where_tournaments_str_return_during_day" text="Arena is closed, come back during the day." />
+    </strings>
+</base>

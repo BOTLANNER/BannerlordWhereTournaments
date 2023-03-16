@@ -1,0 +1,33 @@
+﻿<Module>
+  <Name value="Where Tournaments"/>
+  <Id value="WhereTournaments"/>
+  <Version value="v1.1.0"/>
+  <Url value="https://www.nexusmods.com/mountandblade2bannerlord/mods/4747" />
+  <DefaultModule value="false"/>
+  <ModuleCategory value="Singleplayer"/>
+  <SingleplayerModule value="true"/>
+  <MultiplayerModule value="false"/>
+  <Official value="false"/>
+  <DependedModules>
+    <DependedModule Id="Native"/>
+    <DependedModule Id="SandBoxCore"/>
+    <DependedModule Id="Sandbox"/>
+    <DependedModule Id="StoryMode" />
+  </DependedModules>
+  <DependedModuleMetadatas>
+    <DependedModuleMetadata id="Native" order="LoadBeforeThis" version="1.0.0.*" />
+    <DependedModuleMetadata id="SandBoxCore" order="LoadBeforeThis" version="1.0.0.*" />
+    <DependedModuleMetadata id="Sandbox" order="LoadBeforeThis" version="1.0.0.*" />
+    <DependedModuleMetadata id="StoryMode" order="LoadBeforeThis" version="1.0.0.*" />
+    <DependedModuleMetadata id="CustomBattle" order="LoadBeforeThis" version="1.0.0.*" optional="true" />
+  </DependedModuleMetadatas>
+  <SubModules>
+    <SubModule>
+      <Name value="WhereTournaments"/>
+      <DLLName value="WhereTournaments.dll"/>
+      <SubModuleClassType value="WhereTournaments.Main"/>
+      <Tags />
+    </SubModule>
+  </SubModules>
+  <Xmls/>
+</Module>

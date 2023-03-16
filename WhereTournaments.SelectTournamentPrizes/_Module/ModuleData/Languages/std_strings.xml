@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<base xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" type="string">
+    <tags>
+        <tag language="English" />
+    </tags>
+    <strings>
+        <string id="where_tournaments_select_prizes_str_select_cat" text="{TOWN}: Select the prize category or confirm the current prize." />
+        <string id="where_tournaments_select_prizes_str_select_prizes" text="Select the prize from {CATEGORY} or confirm the current prize." />
+        <string id="where_tournaments_select_prizes_str_select_current_prize" text="Confirm the current prize." />
+        <string id="where_tournaments_select_prizes_str_banner_cat" text="available banners" />
+        <string id="where_tournaments_select_prizes_str_banner_cat_short" text="Banners" />
+        <string id="where_tournaments_select_prizes_str_regular_cat" text="available regular items" />
+        <string id="where_tournaments_select_prizes_str_regular_cat_short" text="Regular" />
+        <string id="where_tournaments_select_prizes_str_elite_cat" text="available elite items" />
+        <string id="where_tournaments_select_prizes_str_elite_cat_short" text="Elite" />
+        <string id="where_tournaments_select_prizes_str_select_button" text="Confirm" />
+        <string id="where_tournaments_select_prizes_str_select_prize_title" text="Select Prize for {TOWN}." />
+    </strings>
+</base>
