@@ -66,6 +66,10 @@ namespace WhereTournaments.SelectTournamentPrizes
                 {
                     //tournamentGame.CachePossibleBannerItems(true);
                     banners = Campaign.Current.Models.BannerItemModel.GetPossibleRewardBannerItems().ToList();
+                    if (banners != null && banners.Count > 0)
+                    {
+                        tournamentGame.SetPossibleBannerRewardItemObjectsCache(banners);
+                    }
                 }
 
                 var currentText = new TextObject("{=where_tournaments_select_prizes_str_select_current_prize}Confirm the current prize.");
@@ -109,6 +113,7 @@ namespace WhereTournaments.SelectTournamentPrizes
                         inquiryElements: inquiryElements1,
                         isExitShown: true,
                         maxSelectableOptionCount: 1,
+                        minSelectableOptionCount: 0,
                         affirmativeText: confirmText.ToString(),
                         negativeText: null,
                         affirmativeAction: (List<InquiryElement> args) =>
@@ -156,6 +161,7 @@ namespace WhereTournaments.SelectTournamentPrizes
                                         inquiryElements: inquiryElementList,
                                         isExitShown: true,
                                         maxSelectableOptionCount: 1,
+                                        minSelectableOptionCount: 0,
                                         affirmativeText: confirmText.ToString(),
                                         negativeText: null,
                                         affirmativeAction: (List<InquiryElement> args) =>
@@ -200,14 +206,6 @@ namespace WhereTournaments.SelectTournamentPrizes
             }
             breakPluginExecution = false;
             return false;
-        }
-
-        public enum PrizeCategorySelection
-        {
-            Current = 0,
-            Banners = 1,
-            Regular = 2,
-            Elite = 3
         }
 
     }

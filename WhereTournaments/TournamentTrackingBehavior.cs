@@ -126,6 +126,7 @@ namespace WhereTournaments
                 inquiryElements: inquiryElementList,
                 isExitShown: true,
                 maxSelectableOptionCount: -1,
+                minSelectableOptionCount: 0,
                 affirmativeText: new TextObject("{=where_tournaments_str_tournaments_track_selected}Track Selected").ToString(),
                 negativeText: null,
                 affirmativeAction: (List<InquiryElement> args) =>

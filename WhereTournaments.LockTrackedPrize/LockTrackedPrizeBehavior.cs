@@ -31,7 +31,28 @@ namespace WhereTournaments.LockTrackedPrize
             CampaignEvents.DailyTickEvent.AddNonSerializedListener(this, DailyTick);
             CampaignEvents.OnNewGameCreatedEvent.AddNonSerializedListener(this, new Action<CampaignGameStarter>(this.OnAfterNewGameCreated));
             CampaignEvents.OnGameLoadedEvent.AddNonSerializedListener(this, new Action<CampaignGameStarter>(this.OnAfterNewGameCreated));
+            CampaignEvents.TournamentFinished.AddNonSerializedListener(this, TournamentFinished);
+            CampaignEvents.TournamentCancelled.AddNonSerializedListener(this, TournamentCancelled);
         }
+
+        private void TournamentCancelled(Town town)
+        {
+            var trackedItem = trackedTournaments.FirstOrDefault(t => t.TownTournamentItem!.Town == town);
+            if (trackedItem != null)
+            {
+                trackedTournaments.Remove(trackedItem);
+            }
+        }
+
+        public void TournamentFinished(CharacterObject winner, MBReadOnlyList<CharacterObject> participants, Town town, ItemObject prize)
+        {
+            var trackedItem = trackedTournaments.FirstOrDefault(t => t.TownTournamentItem!.Town == town);
+            if (trackedItem != null)
+            {
+                trackedTournaments.Remove(trackedItem);
+            }
+        }
+
         public void OnAfterNewGameCreated(CampaignGameStarter campaignGameSystemStarter)
         {
             try
@@ -133,35 +154,46 @@ namespace WhereTournaments.LockTrackedPrize
 
         private void EnsurePrize(Settlement settlement)
         {
-            var trackedItem = trackedTournaments.FirstOrDefault(t => t.TownTournamentItem!.Town == settlement.Town);
-            if (trackedItem != null)
+            try
             {
-                TownTournamentItem? townTournament = trackedItem.TownTournamentItem;
-                if (townTournament != null &&
-                   townTournament.Town != null &&
-                   townTournament.Tournament != null &&
-                   townTournament.Tournament.Prize != null)
+                var trackedItem = trackedTournaments.FirstOrDefault(t => t.TownTournamentItem!.Town == settlement.Town);
+                if (trackedItem != null)
                 {
-                    var actual = Campaign.Current.TournamentManager.GetTournamentGame(townTournament.Town);
-                    if (actual == null || (actual != townTournament.Tournament && actual.CreationTime != townTournament.Tournament.CreationTime))
+                    TownTournamentItem? townTournament = trackedItem.TownTournamentItem;
+                    if (townTournament != null &&
+                       townTournament.Town != null &&
+                       townTournament.Tournament != null &&
+                       townTournament.Tournament.Prize != null)
                     {
-                        //Tournament is over. Removing...
+                        var tournament = Campaign.Current.TournamentManager.GetTournamentGame(townTournament.Town);
+                        if (tournament == null || (tournament != townTournament.Tournament && tournament.CreationTime != townTournament.Tournament.CreationTime))
+                        {
+                            //Tournament is over. Removing...
+                            trackedTournaments.Remove(trackedItem);
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        //No such item. Removing...
                         trackedTournaments.Remove(trackedItem);
                         return;
                     }
-                }
-                else
-                {
-                    //No such item. Removing...
-                    trackedTournaments.Remove(trackedItem);
-                    return;
-                }
+                    var actual = Campaign.Current.TournamentManager.GetTournamentGame(townTournament.Town);
 
-                trackedItem.TownTournamentItem!.Tournament!.UpdateTournamentPrize(true, false);
-                if (trackedItem.Prize?.ToString() != trackedItem.TownTournamentItem!.Tournament!.Prize?.ToString())
-                {
-                    trackedItem.TownTournamentItem!.Tournament!.ForceSetPrize(trackedItem.Prize);
+                    trackedItem.TownTournamentItem!.Tournament!.UpdateTournamentPrize(true, false);
+                    if (trackedItem.Prize?.ToString() != trackedItem.TownTournamentItem!.Tournament!.Prize?.ToString() && actual is FightTournamentGame tournamentGame)
+                    {
+                        trackedItem.TownTournamentItem!.Tournament!.ForceSetPrize(trackedItem.Prize);
+                    }
                 }
+            }
+            catch (System.Exception e)
+            {
+                TaleWorlds.Library.Debug.PrintError(e.Message, e.StackTrace);
+                Debug.WriteDebugLineOnScreen(e.ToString());
+                Debug.SetCrashReportCustomString(e.Message);
+                Debug.SetCrashReportCustomStack(e.StackTrace);
             }
         }
 
@@ -184,20 +216,22 @@ namespace WhereTournaments.LockTrackedPrize
                 if (townTournament != null && 
                     townTournament.Town != null && 
                     townTournament.Tournament != null && 
-                    townTournament.Tournament.Prize != null)
+                    townTournament.Tournament.Prize != null &&
+                    townTournament.Tournament is FightTournamentGame tournamentGame)
                 {
+
                     var found = trackedTournaments.FirstOrDefault(t => t.TownTournamentItem!.Tournament == townTournament.Tournament || (t.TownTournamentItem.Tournament!.CreationTime == townTournament.Tournament.CreationTime && t.TownTournamentItem.Town == townTournament.Town));
                     if (found != null)
                     {
                         found.TownTournamentItem = townTournament;
-                        found.Prize = new ItemObject(townTournament.Tournament.Prize);
+                        found.Prize = townTournament.Tournament.Prize;
                     }
                     else
                     {
                         trackedTournaments.Add(new TownTournamentItemPrize
                         {
                             TownTournamentItem = townTournament,
-                            Prize = new ItemObject(townTournament.Tournament.Prize)
+                            Prize = townTournament.Tournament.Prize
                         });
                     }
                 }

@@ -3,8 +3,9 @@ using System.Reflection;
 
 using TaleWorlds.CampaignSystem.TournamentGames;
 using TaleWorlds.Core;
+using TaleWorlds.Library;
 
-namespace WhereTournaments.SelectTournamentPrizes
+namespace WhereTournaments
 {
     public static class FightTournamentGameReflection
     {
@@ -37,6 +38,18 @@ namespace WhereTournaments.SelectTournamentPrizes
         public static List<ItemObject> GetPossibleBannerRewardItemObjectsCache(this FightTournamentGame fightTournamentGame)
         {
             return (List<ItemObject>) possibleBannerRewardItemObjectsCacheField.GetValue(fightTournamentGame);
+        }
+
+        public static bool SetPossibleBannerRewardItemObjectsCache(this FightTournamentGame fightTournamentGame, List<ItemObject> cache)
+        {
+            try
+            {
+                possibleBannerRewardItemObjectsCacheField.SetValue(fightTournamentGame, cache);
+                return true;
+            }
+            catch (System.Exception e) { TaleWorlds.Library.Debug.PrintError(e.Message, e.StackTrace); Debug.WriteDebugLineOnScreen(e.ToString()); Debug.SetCrashReportCustomString(e.Message); Debug.SetCrashReportCustomStack(e.StackTrace); }
+        
+            return false;
         }
 
         public static List<ItemObject> GetPossibleRegularRewardItemObjectsCache(this FightTournamentGame fightTournamentGame)
