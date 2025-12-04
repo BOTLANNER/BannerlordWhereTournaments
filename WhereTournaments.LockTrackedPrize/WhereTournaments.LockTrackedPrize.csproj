@@ -34,7 +34,7 @@
     -->
     <GameFolder Condition="$(IsStable) == 'true'">$(BANNERLORD_STABLE_DIR)</GameFolder>
     <GameFolder Condition="$(IsBeta) == 'true'">$(BANNERLORD_BETA_DIR)</GameFolder>
-    <GameFolder Condition="$(GameFolder) == ''">$(BANNERLORD_GAME_DIR)</GameFolder>
+    <GameFolder Condition="$(GameFolder) == ''">C:\Games\Mount &amp; Blade 2 - Bannerlord</GameFolder>
   </PropertyGroup>
 
   <!-- Automatic Game Folder Resolution -->

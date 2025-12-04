@@ -2,20 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 
-using Helpers;
-
 using SandBox.View.Map;
 
 using TaleWorlds.CampaignSystem;
-using TaleWorlds.CampaignSystem.CampaignBehaviors;
-using TaleWorlds.CampaignSystem.GameMenus;
-using TaleWorlds.CampaignSystem.Overlay;
-using TaleWorlds.CampaignSystem.Party;
-using TaleWorlds.CampaignSystem.Settlements;
 using TaleWorlds.CampaignSystem.TournamentGames;
-using TaleWorlds.CampaignSystem.ViewModelCollection.Map;
 using TaleWorlds.CampaignSystem.ViewModelCollection.Map.MapNotificationTypes;
 using TaleWorlds.Core;
+using TaleWorlds.Core.ImageIdentifiers;
 using TaleWorlds.Library;
 using TaleWorlds.Localization;
 
@@ -90,19 +83,19 @@ namespace WhereTournaments.SelectTournamentPrizes
 
                 List<InquiryElement> inquiryElements1 = new()
                 {
-                    new InquiryElement(PrizeCategorySelection.Current, tournamentGame.Prize.Name.ToString(), new ImageIdentifier(tournamentGame.Prize), true, currentText.ToString() + "\r\n\r\n" + tournamentGame.Prize.ToToolTipTextObject().ToString() ),
+                    new InquiryElement(PrizeCategorySelection.Current, tournamentGame.Prize.Name.ToString(), new ItemImageIdentifier(tournamentGame.Prize), true, currentText.ToString() + "\r\n\r\n" + tournamentGame.Prize.ToToolTipTextObject().ToString() ),
                 };
                 if (banners != null && banners.Count > 0)
                 {
-                    inquiryElements1.Add(new InquiryElement(PrizeCategorySelection.Banners, new TextObject("{=where_tournaments_select_prizes_str_banner_cat_short}Banners").ToString(), new ImageIdentifier(banners.FirstOrDefault()), true, bannersText.ToString()));
+                    inquiryElements1.Add(new InquiryElement(PrizeCategorySelection.Banners, new TextObject("{=where_tournaments_select_prizes_str_banner_cat_short}Banners").ToString(), new ItemImageIdentifier(banners.FirstOrDefault()), true, bannersText.ToString()));
                 }
                 if (regular != null && regular.Count > 0)
                 {
-                    inquiryElements1.Add(new InquiryElement(PrizeCategorySelection.Regular, new TextObject("{=where_tournaments_select_prizes_str_regular_cat_short}Regular").ToString(), new ImageIdentifier(regular.FirstOrDefault()), true, regularText.ToString()));
+                    inquiryElements1.Add(new InquiryElement(PrizeCategorySelection.Regular, new TextObject("{=where_tournaments_select_prizes_str_regular_cat_short}Regular").ToString(), new ItemImageIdentifier(regular.FirstOrDefault()), true, regularText.ToString()));
                 }
                 if (elite != null && elite.Count > 0)
                 {
-                    inquiryElements1.Add(new InquiryElement(PrizeCategorySelection.Elite, new TextObject("{=where_tournaments_select_prizes_str_elite_cat_short}Elite").ToString(), new ImageIdentifier(elite.FirstOrDefault()), true, eliteText.ToString()));
+                    inquiryElements1.Add(new InquiryElement(PrizeCategorySelection.Elite, new TextObject("{=where_tournaments_select_prizes_str_elite_cat_short}Elite").ToString(), new ItemImageIdentifier(elite.FirstOrDefault()), true, eliteText.ToString()));
                 }
 
                 Action queryCategories = () =>
@@ -126,7 +119,7 @@ namespace WhereTournaments.SelectTournamentPrizes
                                 List<ItemObject>? selectionList = null;
                                 TextObject? descriptionText = null;
                                 List<InquiryElement> inquiryElementList = new List<InquiryElement>();
-                                inquiryElementList.Add(new InquiryElement(tournamentGame.Prize, tournamentGame.Prize.Name.ToString(), new ImageIdentifier(tournamentGame.Prize), true, currentText.ToString() + "\r\n\r\n" + tournamentGame.Prize.ToToolTipTextObject().ToString()));
+                                inquiryElementList.Add(new InquiryElement(tournamentGame.Prize, tournamentGame.Prize.Name.ToString(), new ItemImageIdentifier(tournamentGame.Prize), true, currentText.ToString() + "\r\n\r\n" + tournamentGame.Prize.ToToolTipTextObject().ToString()));
                                 switch (selection)
                                 {
                                     case PrizeCategorySelection.Banners:
@@ -148,7 +141,7 @@ namespace WhereTournaments.SelectTournamentPrizes
                                         return;
                                 }
 
-                                inquiryElementList.AddRange(selectionList.Select(s => new InquiryElement(s, s.Name.ToString(), new ImageIdentifier(s), true, s.ToToolTipTextObject().ToString())));
+                                inquiryElementList.AddRange(selectionList.Select(s => new InquiryElement(s, s.Name.ToString(), new ItemImageIdentifier(s), true, s.ToToolTipTextObject().ToString())));
                                 Action<float>? querySelection = null;
                                 
                                 querySelection = (f) =>
