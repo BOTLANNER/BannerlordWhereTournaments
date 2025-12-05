@@ -5,13 +5,12 @@ using System.Linq;
 using Helpers;
 
 using TaleWorlds.CampaignSystem;
-using TaleWorlds.CampaignSystem.CampaignBehaviors;
 using TaleWorlds.CampaignSystem.GameMenus;
-using TaleWorlds.CampaignSystem.Overlay;
 using TaleWorlds.CampaignSystem.Party;
 using TaleWorlds.CampaignSystem.Settlements;
 using TaleWorlds.CampaignSystem.TournamentGames;
 using TaleWorlds.Core;
+using TaleWorlds.Core.ImageIdentifiers;
 using TaleWorlds.Library;
 using TaleWorlds.Localization;
 
@@ -70,7 +69,7 @@ namespace WhereTournaments
 
             var ordered = (
                     from x in list
-                    orderby x.Town.Settlement.Position2D.DistanceSquared(Settlement.CurrentSettlement.Position2D)
+                    orderby x.Town.Settlement.GetPosition2D.DistanceSquared(Settlement.CurrentSettlement.GetPosition2D)
                     select x);
 
             if (nearby)
@@ -93,7 +92,7 @@ namespace WhereTournaments
                 var townDays = new TextObject("{=where_tournaments_str_tournament_days_left}{TOWN} - {DAYS} days left");
                 townDays.SetTextVariable("TOWN", Settlement.CurrentSettlement!.EncyclopediaLinkWithName.ToString());
                 townDays.SetTextVariable("DAYS", ((int)(currentTournament!.RemoveTournamentAfterDays - (CampaignTime.Now - currentTournament!.CreationTime).ToDays)).ToString());
-                inquiryElementList.Add(new InquiryElement(Settlement.CurrentSettlement.Town, townDays.ToString(), new ImageIdentifier(currentTournament!.Prize, Settlement.CurrentSettlement!.Owner?.ClanBanner?.Serialize()), false, $"{tournamentInCurrentText} \r\n\r\n{currentTournament.GetMenuText().ToString()}"));
+                inquiryElementList.Add(new InquiryElement(Settlement.CurrentSettlement.Town, townDays.ToString(), new ItemImageIdentifier(currentTournament!.Prize, Settlement.CurrentSettlement!.Owner?.ClanBanner?.Serialize()), false, $"{tournamentInCurrentText} \r\n\r\n{currentTournament.GetMenuText().ToString()}"));
             }
             foreach (var item in list.Where(item => item != null && item.Town.Settlement != null))
             {
@@ -117,7 +116,7 @@ namespace WhereTournaments
 
                 DeferFoundTournament(item, Current!.TournamentTrackingPlugins).Invoke();
 
-                inquiryElementList.Add(new InquiryElement(item, townDays.ToString(), new ImageIdentifier(item.Tournament!.Prize, item.Town!.Settlement!.Owner?.ClanBanner?.Serialize()), !isTracked,$"{trackedHint.ToString()} \r\n\r\n{item.Tournament.GetMenuText().ToString()}"));
+                inquiryElementList.Add(new InquiryElement(item, townDays.ToString(), new ItemImageIdentifier(item.Tournament!.Prize, item.Town!.Settlement!.Owner?.ClanBanner?.Serialize()), !isTracked,$"{trackedHint.ToString()} \r\n\r\n{item.Tournament.GetMenuText().ToString()}"));
             }
 
             MBInformationManager.ShowMultiSelectionInquiry(new MultiSelectionInquiryData(
