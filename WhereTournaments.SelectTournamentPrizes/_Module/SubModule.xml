@@ -1,7 +1,7 @@
 ﻿<Module>
   <Name value="Where Tournaments: Select Tournament Prize"/>
   <Id value="WhereTournamentsSelectTournamentPrize"/>
-  <Version value="v2.0.0"/>
+  <Version value="v3.0.0"/>
   <Url value="https://www.nexusmods.com/mountandblade2bannerlord/mods/4747" />
   <DefaultModule value="false"/>
   <ModuleCategory value="Singleplayer"/>
